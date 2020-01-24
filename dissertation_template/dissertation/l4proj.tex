@@ -1,0 +1,479 @@
+% REMEMBER: You must not plagiarise anything in your report. Be extremely careful.
+
+\documentclass{l4proj}
+
+    
+%
+% put any additional packages here
+%
+
+\begin{document}
+
+%==============================================================================
+%% METADATA
+\title{Exploring 3D printing technologies for robotic grasping. }
+\author{Adam Christie}
+\date{September 14, 2019}
+
+\maketitle
+
+%==============================================================================
+%% ABSTRACT
+\begin{abstract}
+    Every abstract follows a similar pattern. Motivate; set aims; describe work; explain results.
+    \vskip 0.5em
+    ``XYZ is bad. This project investigated ABC to determine if it was better. 
+    ABC used XXX and YYY to implement ZZZ. This is particularly interesting as XXX and YYY have
+    never been used together. It was found that  
+    ABC was 20\% better than XYZ, though it caused rabies in half of subjects.''
+\end{abstract}
+
+%==============================================================================
+
+% EDUCATION REUSE CONSENT FORM
+% If you consent to your project being shown to future students for educational purposes
+% then insert your name and the date below to  sign the education use form that appears in the front of the document. 
+% You must explicitly give consent if you wish to do so.
+% If you sign, your project may be included in the Hall of Fame if it scores particularly highly.
+%
+% Please note that you are under no obligation to sign 
+% this declaration, but doing so would help future students.
+%
+%\def\consentname {My Name} % your full name
+%\def\consentdate {20 March 2018} % the date you agree
+%
+\educationalconsent
+
+
+%==============================================================================
+\tableofcontents
+
+%==============================================================================
+%% Notes on formatting
+%==============================================================================
+% The first page, abstract and table of contents are numbered using Roman numerals and are not
+% included in the page count. 
+%
+% From now on pages are numbered
+% using Arabic numerals. Therefore, immediately after the first call to \chapter we need the call
+% \pagenumbering{arabic} and this should be called once only in the document. 
+%
+% Do not alter the bibliography style.
+%
+% The first Chapter should then be on page 1. You are allowed 40 pages for a 40 credit project and 30 pages for a 
+% 20 credit report. This includes everything numbered in Arabic numerals (excluding front matter) up
+% to but excluding the appendices and bibliography.
+%
+% You must not alter text size (it is currently 10pt) or alter margins or spacing.
+%
+%
+%==================================================================================================================================
+%
+% IMPORTANT
+% The chapter headings here are **suggestions**. You don't have to follow this model if
+% it doesn't fit your project. Every project should have an introduction and conclusion,
+% however. 
+%
+%==================================================================================================================================
+\chapter{Introduction}
+% reset page numbering. Don't remove this!
+\pagenumbering{arabic} 
+
+
+To introduce this dissertation I believe it is important to first give some examples that highlight to us how applicable and important 3D printing is in todays world. Imagine engineers on a space station, trying to find some work around to replace a broken end-effector on a robotic arm. Or a research and development team trying to quickly prototype their ideas. Or even a carpenter that wants to create a strong and precise jig that he can use to speed up his work. 
+
+In all of these situations 3D printing can potentially offer a way to quickly design reliable and accurate parts in an efficient way. This wide range of possible applications shows to me that there is potential to 3D printing that we do not currently utilise.  
+
+When looking at robotics, from the high end robots of BostonDynamics, to earth and space exploration, the technology can add not only safety, but in some cases a better way of life for people. Our one drawback of robotics is the expense, which we would be able to somewhat mitigate using 3D printing. In this chapter I will outline the motivation for using 3D printing within robotics and will lay out a series of research goals that I will aim to complete during this project. 
+
+
+\section{Motivation}
+3D printing has slowly evolved from basic resin layering (Charles Hull 1983)[1], to the refined and precise printers that we know of today. As this technology has improved over the years its applications have spanned into all aspects of life and technology and it has quickly become a way to cheaply create prototypes and quick permanent solutions to problems. On the opposite end of the cost spectrum we have robotics, with factory robotic arms costing anywhere between \$25,000 to 400,000 [2], or the University of Glasgows Baxter which cost around £13,000 not including VAT and installation costs. So this is not something that the average person can afford.
+
+Even at these high prices, researchers often find themselves at a disadvantage of only having a very limited selection of grippers to choose from and are often forced to compensate the disadvantages of some designs with either highly specialised code or external systems[3]. 3D printing has brought us the ability to either quickly customise these designs to fit with specific needs, or to design the grippers from scratch. This becomes very attractive due to the fact that a lot of designs and documentation are open source, meaning researches can pick and choose from a wide range of already existing designs.  
+
+This is the basis of my dissertation. Are we able to find open sourced 3D gripper designs, that we can take, modify if needed, print, program and run? This will show us how easy it can be for researchers to do the same, saving them a large amount of time and money. Another aspect I wish to explore is am I able to create generic code that works on very different gripper designs? This will show us again how much time researchers can save by having one generic program that runs several grippers, rather than having to create new code for each one. 
+
+
+\section{Aims and Goals}
+The aim of this dissertation is to explore the benefits of 3D printing in robotics, specifically in robotic grippers. During this project I will aim to:
+
+\begin{itemize}
+    \item
+    Research a range of existing gripper designs and choose from them two that I believe will be the most appropriate to this project. This will involve finding grippers that have different opening and closing methods, different degrees of freedom and different geared mechanisms. This will also require research into what types of motors will be needed to power them. Some will require simpler 180$^{\circ}$ servomotors, while others will require more complex 360$^{\circ}$ motors that will need feedback to control.
+    \item
+    3D print the two chosen gripper designs. I will either use online and open sourced STL files that I will get during research, or if these are not available, using CAD software I will try and replicate the design. While 3D printing I will have to ensure that all the correct calibrations are done before each print to ensure that the parts are as high quality as possible. These will have to be assembled and the motors will then be attached.
+    \item
+    Design and implement code that will give control of the grippers using an Arduino board that I will integrate using the ROS (Robotic Operating System) middleware. The designed code must be able to work on both designs meaning it can't be dependant on motor type, speed, or if it's a continuous motor or not. 
+    \item
+    Evaluate the performance of the grippers with user tests, tests on their ability to grip and hold objects, and by verifying that they both meet their requirements. This will need to be done with a range of objects of varying shapes, sizes and weights in order to stress test the capabilities of both grippers. 
+\end{itemize}
+
+By the end of these goals we will hopefully be able to prove that not only is 3D printing a much cheaper way for robotics research to done, but that it also provides us with grippers that are as useful as existing manufactured designs, and that can be programmed efficiently.
+
+
+
+%==================================================================================================================================
+\chapter{Background}
+In this section I plan on researching each aspect of my project thoroughly, so that I can get a better understanding of what other people have already done in this field, what components and tools there are currently available to me, and what designs are currently available online. By conducting this research we are also able to identify the best parts and designs to use.  This will involve current applications in 3D printing, including applications related to robotics, and a product overview, where we will look at gripper design, software frameworks and motors that we can utilise. 
+
+\section{3D printing applications}
+\subsection{Rapid Prototyping}
+Until recently, prototyping required skilled tradesmen to produce accurate models, often taking weeks or months to go from detailed 2D hand-drawn designs, to then producing the end model from this. 3D printing has given us a completely new outlook on prototyping, as we are now able to mock up designs and print them in the same day, opening up windows in the manufacturing process for quick modifications and changes if necessary. D.T Pham states that the introduction of rapid prototyping could reduce product costs by up to 70\% and cut time to market by 90\%[4]. 
+
+Pham's paper[4] gives us an outline of the many branches that come under rapid prototyping, the two main ones being material addition, also known as Additive Manufacturing, and material removal. There are even more subcategories under each, see figure2.1, but the majority of material addition processes are different types of 3D printing. Stereolithography (SLA) is one of the earliest versions of 3D printing, layering a photosensitive resin that reacts to UV light. Pham states that this is the most common technique used when rapid prototyping as it is fast, produces a good finish, and is a well proven system that is trusted with manufacturers. However the resin used is toxic and is often brittle and mechanically weak once printed, making it unusable for many prototyping applications and not suitable for this project.
+
+Fusion Deposition Modelling (FDM), another 3D printing additive manufacturing process, uses molten plastic, built up layer by layer to create the design. This process offers a range materials to use, PLA, ABS, PETG and more, meaning that there are different materials for different needs. Most of these are robust and strong materials, not to mention that it is non-toxic and environmentally safe. Having this range can be very useful, especially when compared to SLA which only offers a small range, usually dependant on the manufacturer of the printer. This method is cheap and easy to use, CAD models simply need to be "Sliced" into a g-code format, so they can then be uploaded to a FDM printer. We then have our prototype ready any time from minutes to hours, depending on the size. This seems like it would be the most suitable method for this project and the fact that the university already has these printers available makes it even more attractive. 
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.9\linewidth]{images/rapidPrototyping.png}    
+
+    \caption{Shows us a drop down tree of the different types of rapid prototyping [4].}
+\end{figure}
+
+
+\subsection{Researchers \& Robotics}
+Robotics can be incredibly expensive, for example one of the robotic arms found at the University of Glasgow, the UR3, cost £13,000 not including VAT, which is already considered cheap. In contrast to this, lecturer Dr Aragon Camarasa 3D printed a robotic arm similar to the UR3, costing him in total £500. This is a huge difference, giving researchers or developers a way to study robotics in an affordable way. 
+
+One very interesting application of 3D printing in robotics is Poppy[5]. Poppy is the worlds first open source 3D printed humanoid robot. It was originally being built in order to study the role of morphology (changing the shape of body parts) in sensorimeter control, however until recently this was difficult as manufacturing processes were very expensive. By shifting the Poppy project to use 3D printing techniques, they were able to create a humanoid robot that they can explore new body shapes within a matter of days. This allowed the researching team to fully investigate how the morphology of the robot changed biped locomotion, meaning that they were able to produce a range of thigh designs that they could implement quickly and cheaply for investigations.
+
+The research paper [3] gives some very good insight into the uses of 3D printing in robotic grippers. Whilst this paper is primarily focused on the design mechanisms of the gripper it does go into some detail on the uses and benefits of using 3D printing for robotic grippers. Here they use ABS plastic, due to its softness meaning that they could use simple dowels to fasten parts together. The paper states that most grippers in industry currently fall into two categories, either simple and highly specialised, or general and extremely complicated. The high price often leads to researchers having to compensate mechanical disadvantages with complex software. Perhaps, for example, the highly specialised part that has been purchased can't grip irregular objects without accurate feedback and intense software, whereas quickly 3D printing an under-actuated design that conforms to it's object without feedback would likely be easier and more time efficient. 
+
+There is a wide range of possible uses for 3D printing in robotics that haven't been fully utilised yet, for example, NASA's Dextre[6]. This is a robotic arm, designed by Canada's space agency, currently located on the ISS. Dextre performs a wide variety of functions that previously would've involved dangerous space walks for the astronauts. It has a wide range of end-effectors and other equipment, such as cameras and lights, that allow it to do a range of jobs such as replacing batteries, testing equipment and even fixing electrical circuits[7]. But what would happen if one of its end-effectors broke? At this stage the astronauts on the ISS would have to do this routine maintenance themselves, until the new parts arrive at the ISS. These cargo flights use the SpaceX Dragon spacecraft, and aren't evenly spaced, meaning the crews can go anywhere from days to months without getting new supplies[8]. Instead, the astronauts could 3D print the part, and use this until the cargo shipment arrived. This would minimise the risk put onto the astronauts as they would no longer have to pick up Dextre's routine duties. 
+
+
+\section{Product Overview}
+
+\subsection{Gripper Mechanisms}
+Robots can have many different pieces of equipment attached to their arms, the end-effector is a generalising term that includes all devices that can be installed on to a robot wrist. This can include many different types of equipment, including welding torches, collision sensors, tool changers and of course, grippers. 
+
+One main design choice for robotic grippers is how many degrees of freedom it will have. The textbook [9], describes DOF as the number of independent coordinates necessary for the movement of the gripper. So a gripper that has two jaws which move left and right would only have one degree of freedom. There are several basic types of gripper geometries, as described by Mouhammad Abomoharam and Alaa Hassan[10]. They describe that the most basic type of these is single degree of freedom designs. These could come in many different shapes however, such as-
+\begin{itemize}
+	\item
+	A pair of geared jaws geared together and connected to a motor.
+	\item
+	A reciprocating lever gripper using rack and pinion based linear actuation. 
+	\item
+	Parallel jaws using four bar linkage, similar to what is found in many pliers.
+	\item 
+	Multi-jawed grippers, such as three fingered grippers 
+\end{itemize}
+
+Robotic gripper design is a very lengthy process which involves major design steps, such as kinematics design, dynamics design, thermal design and stiffness[11]. The research paper [11] describes the design of robots as an optimisation problem, in regards too geometric, kinematic and dynamic modelling. This modelling involves intense mathematical calculations that are above the scope of this project, but the gripper that the researchers decide on is a closed loop mechanism with a single degree of freedom. So this design that they have decided to go for is one that can only move forward and backward, and uses feedback in order to regulate itself, as it is a closed loop system. See figure2.2 for design.
+
+On top of degrees of freedom, another important design structure is whether to user full-actuated or under-actuated design. Under-actuated systems can be defined as systems in which the input, say a motor, cannot accelerate the robot in arbitrary directions[12]. This may seem like a negative feature, however in robotic grippers an under-actuated design can actually be very useful, as they can allow the gripper to conform to the shape of the object that they're gripping. R. Ma[3] describes the design process to get adaptive under-actuation, in which they use a hybrid of a pulley system and a whiffle tree system (seen in figure2.3) in order to maximise the differential travel with the smallest gripped objects. Pulley systems can be very useful for getting the gripper to conform to objects however they can be fragile. If the motor continues to spin, once it's closed as far as it can, they can snap. This is undesirable when trying to design a robust and modular gripper to be used in a wide range of applications. 
+
+Another interesting design is the four bar and slider-crank design[10]. This gripper design consisted of four fingers, one of which acts as a driver finger and is driven by the motor. So as the motor spins and closes in the driver finger, the other three fingers are closed through the links shown in figure2.3b. Using one motor reduces the weight and cost of this design, whilst still retaining the optimal grasping stability that four fingers offers. A control circuit is also used on this design, using a stepper motor, transistors and an ATmega8 micro-controller in order to control the gripper. This gripper uses a similar design to four bar linkage, with a bit more complexity, as shown in figure2.4.
+
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.75\linewidth]{images/image1.png}    
+    \caption{Showing 1-DOF design, [11]}
+    \label{fig:image1} 
+\end{figure}
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.75\linewidth]{images/image2.png}    
+
+    \caption{Showing under-actuated finger design for conforming to objects, [3]}
+\end{figure}
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.75\linewidth]{images/fourfingered.png}    
+
+    \caption{Showing four fingered bar and slider crank design, [10]}
+\end{figure}
+
+
+\subsection{Servo Motors}
+A servo motor is a type of actuator that allows precise control of the motors position, velocity and acceleration. Servos are found in many applications, from home electronics to cars and airplanes. Servos come in a variety of shapes and sizes, for the many different applications that they might have. Servos work by taking a small DC motor, that spins at a high RPM and uses a series of gears to increase the torque when needed. A positional sensor is placed on the final gear, which lets the circuit board know what position the motor is currently in. The circuit board takes in a signal from the user telling it what position to go to, decodes it and uses its knowledge from the current position to know how far to turn[13]. There are many types of motors that we could look at, such as DC or stepper motors, however servo motors offer very precise rotations and are often fast with a high torque. Because of these benefits they are generally thought of as the "Go To" for robotics motors, making them perfect for this project. 
+\\*Servo motors come in a wide range of designs and sizes, but there are three main ones to take a look at:
+\begin{itemize}
+	\item 
+	\textbf{Positional rotation servo}: The shaft in a positional rotation servo rotates between 180$^{\circ}$, using a physical mechanism located in the gears to stop rotations outside of these limits. These are very often used in robotics as they offer very high precision positional control, making them an obvious choice for this project.
+	
+	\item
+	\textbf{Continuous rotation servo}: These can continue in any direction indefinitely, offering open loop speed control instead of the standard positional control. These started out as simply as hacked RC servos, removing the controller feedback so the motor position no longer mattered. Soon the industry recognised the need for these servo's so started producing them as well. These would be very useful for gripper designs that implemented a screw or gear and rack actuation, in which the servo will have to spin more than 180$^{\circ}$.
+	\item
+	\textbf{Linear servo}: This uses a gear and rack actuation, giving linear movement rather than rotational. These servos aren't used extensively and are generally more expensive than the other two. As they aren't used very often I don't think I will use one for this project. The aim is to try and create a gripper that will be widely used with parts that will be on hand to researchers. As these are hard to obtain and generally quite more expensive I don't think they would be useful. 
+\end{itemize}
+
+
+\subsection{ROS}
+The Robotic Operating System is a middleware framework for writing software for robotics[14]. ROS is able to utilise a very large collection of tools and libraries to simplify programming whilst still allowing for complex robotic operations. It was created by a wide range of experts and researches who contributed their time and resources to the core of ROS ideas and to the many packages that they now offer. As ROS was developed by many different researchers, all in different laboratories working on different robots, the main feature of ROS is that it is designed to be modular. This means that everyone from simple hobbyists, to large scale industrial systems are able to use ROS to implement their systems for free. 
+
+ROS provides many facilities, but I think what will be most useful for this project is the publisher/subscriber message passing capabilities. Messages are published onto topics, which the ROS nodes can use to exchange messages between each other. In the case of robotic grippers these types of messages could be, if an open/close button is being pressed, feedback coming from the motor about its position or resistance to its rotation.
+
+Because of its wide range of possible users, ROS has developed a very large, helpful community, offering over 22,000 wiki pages and a Q\&A website with over 13,000 questions asked that has a 70\% answer rate[15]. This makes ROS invaluable for this project. Not only is it beneficial to have a robotics platform that has such a wide range of packages for use, but for it to also have a helpful community makes any problem easier solved.
+
+
+
+
+%==================================================================================================================================
+\chapter{Requirements 2/3}
+In this chapter we outline the requirements that the robotic grippers must fulfil in order to be considered successful and to achieve the goals we laid out in the introduction. This project was presented to me by Dr Gerardo Aragon Camarasa, a University of Glasgow lecturer, who wanted two robust and useful gripper designs that could be 3D Printed, and ran off the same program. We have had weekly meetings over the course of this project, slowly building up a solid list of requirements as the project becomes more and more clear. This was done in a very agile way, where at each meeting it was discussed what stages the project was at and where we could take the requirements from there. From this a very solid foundation of requirements emerged. 
+
+\section{Problem Specification}
+The following lays out the main specification and expectations for the final product. The most important goal of this project is that it is easy to use, meaning that new users are able to pull from the open source repository, set up our code and control the grippers. This would mean that in a real world scenario researchers are able to quickly implement the code into either our designs, or designs of their own. Aside from this, the grippers themselves will also have more functional requirements, are the able to grasp objects of certain dimensions, lift certain weights, or read feedback from what they're gripping. The functional requirements list the physical abilities the gripper needs to have as well as the tasks that the users should be able to perform on the gripper. The non-functional requirements list the constraints the program will have and its usability. 
+
+\subsection{Functional Requirements}
+
+\textbf{Must Have}
+\begin{itemize}
+	\item The grippers will open and close simply, using only two keys for control. By minimising the options for control we make this program easier to understand and therefore easier to modify by future users, to fit whatever purposes they have. 
+	\item The motor won't push the gripper past it's maximum or minimum constraints. This increases the safety of the system and decreases the likelihood that the gripper will break in use. 
+	
+\end{itemize}
+\textbf{Should Have}
+\begin{itemize}
+	\item The grippers should be able to lift a weight of at least 0.5Kg, this will allow it to lift a wide variety of objects. This number is kept low as we are using servo motors, which aren't built for high torque (i.e. large weight) applications. 
+	\item The grippers should provide feedback to code where necessary, on how much resistance the motor is facing. This will allow the software to calculate if an object is being gripped and whether it needs to stop the motor. 
+\end{itemize}
+
+\textbf{Could Have}
+\begin{itemize}
+	\item A "Hot-Swap" Tooling kit could be designed and created that fits with both gripper designs, that allows quick swapping of each gripper on a robotic arm. This would allow users to switch between different gripper designs much more quickly, which would be beneficial to researchers. After discussions with my supervisor we decided it would be best to ensure we had enough time first to do this. 
+\end{itemize}
+
+
+\subsection{Non-Functional Requirements}
+
+\textbf{Must Have}
+\begin{itemize}
+	\item Users must be able to download and implement software in a reasonable time. This is important as it's quick usability is key to the whole project, and it was decided that as long as the average participant is able to implement it within 20 minutes, it would be adequate. 20 minutes was decided upon due to the large amount of downloads that have to take place, some taking considerable time. A Makefile will need to be produced in order to do this efficiently. 
+	\item Must be usable without the need for a large amount of documentation, as this may put users off. A simple step-by-step guide on set up is adequate, as well as some explanations on how the system works, in the case that users want to edit the code, should be enough
+	\item Must use the same software for both types of grippers, as we are trying to create a general code-base that researchers can use for many types of grippers.
+\end{itemize}
+
+\textbf{Should Have}
+\begin{itemize}
+	\item The gripper should make its transition from closed to open and vice versa in an acceptable time. Within 7 seconds is acceptable, giving plenty of time for the grippers to perform their full movement. 
+	\item The code should be able to calculate how much resistance the motor is facing, in order to then make the decision of whether the object has been fully gripped and to stop the motor. 
+	\item The grippers must be able to grip objects of varying shapes.
+\end{itemize}
+
+\section{Changes to specification}
+
+
+%==================================================================================================================================
+\chapter{Design 3/4}
+How is this problem to be approached, without reference to specific implementation details? 
+Design should cover the abstract design in such a way that someone else might be able to do what you did, but with a different language or library or tool.
+
+\section{Hardware}
+\subsection{Motors}
+\subsection{Gripper Designs}
+\subsection{Microcontroller}
+
+\section{Software design}
+\subsection{Controlling Servo Motor}
+\subsection{Controlling Continuous Servo Motor}
+\subsection{Feedback}
+
+\section{Technologies}
+\subsection{Robotic Operating System}
+\subsection{Python}
+\subsection{Arduino} 
+\subsection{3D Printing and Computer Aided Design}
+
+\section{Ease of use}
+Talk about makefile. 
+
+
+%==================================================================================================================================
+\chapter{Implementation 10/12}
+What did you do to implement this idea, and what technical achievements did you make?
+You can't talk about everything. Cover the high level first, then cover important, relevant or impressive details.
+
+\section{System Overview}
+
+\section{Gripper 1}
+\subsection{Assembly}
+\subsection{Hardware}
+\subsection{Interface}
+
+\section{Gripper 2}
+\subsection{Assembly}
+\subsection{Hardware}
+\subsection{Interface}
+
+
+%==================================================================================================================================
+\chapter{Evaluation 10/11} 
+How good is your solution? How well did you solve the general problem, and what evidence do you have to support that?
+
+\section{Guidance}
+\begin{itemize}
+    \item
+        Ask specific questions that address the general problem.
+    \item
+        Answer them with precise evidence (graphs, numbers, statistical
+        analysis, qualitative analysis).
+    \item
+        Be fair and be scientific.
+    \item
+        The key thing is to show that you know how to evaluate your work, not
+        that your work is the most amazing product ever.
+\end{itemize}
+
+\section{Evidence}
+Make sure you present your evidence well. Use appropriate visualisations, reporting techniques and statistical analysis, as appropriate.
+
+If you visualise, follow the basic rules, as illustrated in Figure \ref{fig:boxplot}:
+\begin{itemize}
+\item Label everything correctly (axis, title, units).
+\item Caption thoroughly.
+\item Reference in text.
+\item \textbf{Include appropriate display of uncertainty (e.g. error bars, Box plot)}
+\item Minimize clutter.
+\end{itemize}
+
+See the file \texttt{guide\_to\_visualising.pdf} for further information and guidance.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=1.0\linewidth]{images/boxplot_finger_distance.pdf}    
+
+    \caption{Average number of fingers detected by the touch sensor at different heights above the surface, averaged over all gestures. Dashed lines indicate
+    the true number of fingers present. The Box plots include bootstrapped uncertainty notches for the median. It is clear that the device is biased toward 
+    undercounting fingers, particularly at higher $z$ distances.
+    }
+
+    % use the notation fig:name to cross reference a figure
+    \label{fig:boxplot} 
+\end{figure}
+
+
+%==================================================================================================================================
+\chapter{Conclusion 1/2}    
+Summarise the whole project for a lazy reader who didn't read the rest (e.g. a prize-awarding committee).
+\section{Guidance}
+\begin{itemize}
+    \item
+        Summarise briefly and fairly.
+    \item
+        You should be addressing the general problem you introduced in the
+        Introduction.        
+    \item
+        Include summary of concrete results (``the new compiler ran 2x
+        faster'')
+    \item
+        Indicate what future work could be done, but remember: \textbf{you
+        won't get credit for things you haven't done}.
+\end{itemize}
+
+
+///////////////////////////////////////////////////////////////////////////
+
+\subsection{References and style guides}
+There are many style guides on good English writing. You don't need to
+read these, but they will improve how you write.
+
+\begin{itemize}
+    \item
+    \emph{How to write a great research paper} \cite{Pey17} (\textbf{recommended}, even though you aren't writing a research paper)
+    \item
+    \emph{How to Write with Style} \cite{Von80}. Short and easy to read. Available online.
+    \item
+    \emph{Style: The Basics of Clarity and Grace} \cite{Wil09} A very popular modern English style guide.
+\end{itemize}
+
+\subsubsection{Citation styles}
+
+\begin{itemize}
+\item If you are referring to a reference as a noun, then cite it as: ``\citet{Orw68} discusses the role of language in political thought.''
+\item If you are referring implicitly to references, use: ``There are many good books on writing \citep{Orw68, Wil09, Pin15}.''
+\end{itemize}
+
+There is a complete guide on good citation practice by Peter Coxhead available here: \url{http://www.cs.bham.ac.uk/~pxc/refs/index.html}. 
+If you are unsure about how to cite online sources, please see this guide: \url{https://student.unsw.edu.au/how-do-i-cite-electronic-sources}.
+
+%==================================================================================================================================
+%
+% 
+%==================================================================================================================================
+%  APPENDICES  
+
+\begin{appendices}
+
+\chapter{Appendices}
+
+Typical inclusions in the appendices are:
+
+\begin{itemize}
+\item
+  Copies of ethics approvals (required if obtained)
+\item
+  Copies of questionnaires etc. used to gather data from subjects.
+\item
+  Extensive tables or figures that are too bulky to fit in the main body of
+  the report, particularly ones that are repetitive and summarised in the body.
+
+\item Outline of the source code (e.g. directory structure), or other architecture documentation like class diagrams.
+
+\item User manuals, and any guides to starting/running the software.
+
+\end{itemize}
+
+\textbf{Don't include your source code in the appendices}. It will be
+submitted separately.
+
+\end{appendices}
+
+%==================================================================================================================================
+%   BIBLIOGRAPHY   
+
+% The bibliography style is abbrvnat
+% The bibliography always appears last, after the appendices.
+
+\bibliographystyle{abbrvnat}
+
+
+\bibliography{l4proj}
+[1] 3D Systems, Our Story, https://uk.3dsystems.com/our-story
+
+[2] https://insights.globalspec.com/article/4788/what-is-the-real-cost-of-an-industrial-robot-arm
+
+[3] Raymond R. Ma, A modular, open-source 3D printed underactuated hand, https://ieeexplore.ieee.org/abstract/document/6630954
+
+[4] D.T. Pham, A comparison of rapid prototyping technologies, 1998, https://www.sciencedirect.com/science/article/pii/S0890695597001375
+
+[5] Matthieu Lapeyre, Poppy Project, https://hal.inria.fr/hal-01096338/document
+
+[6] ISS Robotic Arm, https://www.nasa.gov/mission_pages/station/structure/elements/special-purpose-dextrous-manipulator/
+
+[7] https://www.asc-csa.gc.ca/eng/iss/dextre/about.asp
+
+[8] ISS Cargo delivery schedule https://www.space.com/32286-space-calendar.html
+
+[9] Robotics, 2010, https://link-springer-com.ezproxy.lib.gla.ac.uk/content/pdf/10.1007%2F978-90-481-3776-3.pdf
+
+[10] Mouhammad Abomoharam, Design of a single DOF gripper based on four-bar and slider-crank mechanism for educational purposes, https://www-sciencedirect-com.ezproxy.lib.gla.ac.uk/science/article/pii/S221282711400732X?via%3Dihub
+
+[11] Alaa Hassan, August 2017, Modeling and design optimization of a robot gripper mechanism, https://www-sciencedirect-com.ezproxy.lib.gla.ac.uk/science/article/pii/S073658451630254X?via%3Dihub
+
+[12] MIT, Fully Actuated vs. Underactuated Systems, https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-832-underactuated-robotics-spring-2009/readings/MIT6_832s09_read_ch01.pdf
+
+[13] https://www.sciencebuddies.org/science-fair-projects/references/introduction-to-servo-motors
+
+[14] https://www.ros.org/about-ros/
+
+[15] https://www.ros.org/is-ros-for-me/
+
+[c] https://www.ros.org/history/
+
+
+
+
+
+
+
+
+
+
+
+\end{document}

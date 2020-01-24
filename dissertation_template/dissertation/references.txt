@@ -1,0 +1,33 @@
+References
+
+[1] 3D Systems, Our Story, https://uk.3dsystems.com/our-story
+
+[2] https://insights.globalspec.com/article/4788/what-is-the-real-cost-of-an-industrial-robot-arm
+
+[3] Raymond R. Ma, A modular, open-source 3D printed underactuated hand, https://ieeexplore.ieee.org/abstract/document/6630954
+
+[4] D.T. Pham, A comparison of rapid prototyping technologies, 1998, https://www.sciencedirect.com/science/article/pii/S0890695597001375
+
+[5] Matthieu Lapeyre, Poppy Project, https://hal.inria.fr/hal-01096338/document
+
+[6] ISS Robotic Arm, https://www.nasa.gov/mission_pages/station/structure/elements/special-purpose-dextrous-manipulator/
+
+[7] https://www.asc-csa.gc.ca/eng/iss/dextre/about.asp
+
+[8] ISS Cargo delivery schedule https://www.space.com/32286-space-calendar.html
+
+[9] Robotics, 2010, https://link-springer-com.ezproxy.lib.gla.ac.uk/content/pdf/10.1007%2F978-90-481-3776-3.pdf
+
+[10] Mouhammad Abomoharam, Design of a single DOF gripper based on four-bar and slider-crank mechanism for educational purposes, https://www-sciencedirect-com.ezproxy.lib.gla.ac.uk/science/article/pii/S221282711400732X?via%3Dihub
+
+[11] Alaa Hassan, August 2017, Modeling and design optimization of a robot gripper mechanism, https://www-sciencedirect-com.ezproxy.lib.gla.ac.uk/science/article/pii/S073658451630254X?via%3Dihub
+
+[12] MIT, Fully Actuated vs. Underactuated Systems, https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-832-underactuated-robotics-spring-2009/readings/MIT6_832s09_read_ch01.pdf
+
+[13] https://www.sciencebuddies.org/science-fair-projects/references/introduction-to-servo-motors
+
+[14] https://www.ros.org/about-ros/
+
+[15] https://www.ros.org/is-ros-for-me/
+
+[c] https://www.ros.org/history/

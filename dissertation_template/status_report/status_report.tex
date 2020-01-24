@@ -1,0 +1,91 @@
+    
+\documentclass[11pt]{article}
+\usepackage{times}
+    \usepackage{fullpage}
+    
+    \title{Exploring 3D printing technologies for robotic grasping}
+    \author{Adam Christie - 2237628c}
+
+    \begin{document}
+    \maketitle
+    
+    
+     
+
+\section{Status report}
+
+\subsection{Proposal}\label{proposal}
+To investigate the uses that 3D printing can have for robotic grippers, are we able to use two open source designs that we can print, assemble and run off of one code base. This code base will have to be designed with generality in mind, so that researchers are able to use it for a variety of designs. 
+
+\subsubsection{Motivation}\label{motivation}
+Robotic grippers are used extensively in modern society, however are costly and often not very modular. 3D Printing offers researchers a cheap alternative that allows for quick modularity. A code base that is able to control multiple types of grippers will also save researchers the time and energy required to make it from scratch for each type of gripper. This can help reduce costs in a research project and means those saved costs can be put to better use. 
+
+
+\subsubsection{Aims}\label{aims}
+I aim to find two gripper designs that are open sourced, I will then print and assemble these. The motor types that work most effectively with these will also be purchased and attached. I will then create a general code base that is able to work on both types of grippers effectively, using the ROS framework. A "Hot-swapping" tool should also be researched that would allow the user to quickly swap the two designs in and out. The effectiveness of the project will be based on the ease at which users are able to pull and use this work from an open sourced repository, such as time needed until they get it to run. As well as this, the capabilities of the grippers themselves will be tested, such as maximum weight they can lift. 
+
+\subsection{Progress}\label{progress}
+\begin{itemize}
+	\item
+	Background research was conducted on different types of gripper designs and their uses for several applications. 
+	\item 
+	Five gripper designs were chosen from online, open sourced repositories, so they could each be examined and we could then go down to the final two. 
+	\item 
+	The two gripper designs were chosen after discussions with my supervisor and another PhD student. Once these were chosen I then decided on the types of motors needed for the two designs and these were ordered. 
+	\item
+	The designs were then printed and assembled.
+	\item 
+	Created a publisher subscriber program on the Arduino using the ROS framework. Here two nodes are created, one on the Arduino, and one on the computer.
+	\item
+	Gripper1 has been integrated with the motor and a program was created to allow it to open and close using only two keys. This was built on the previous publisher-subscriber program
+	\item
+	Some research was undergone into the second grippers motor, a continuous motor, as this will require feedback to be read back to the computer. 
+	\item
+	First draft of Introduction and Background were submitted to my supervisor. 
+	
+\end{itemize}
+
+\subsection{Problems and risks}\label{problems-and-risks}
+
+\subsubsection{Problems}\label{problems}
+
+\begin{itemize}
+	\item 
+	Continuous motor for the second gripper was out of stock and the order has only recently gone through.
+	\item 
+	Once the two designs were chosen, one was dropped as it required complex external circuitry and parts that weren't 3D printed, making them arbitrary for this project. Another had to be started, wasting some time that had been spent on original. 
+	\item 
+	Some complex parts on Gripper2 caused 3D-Printing progress to stagger. The speed, fill and the brim of the printer had to be adjusted several times to account for this. This wasted time as the parts could take 4-5 hours to build and this process would often have to be restarted half way through. 
+\end{itemize}
+
+\subsubsection{Risks}\label{risks}
+\begin{itemize}
+	\item 
+	Arduino Yun has limited storage space so storing feedback from the motor will be difficult. \textbf{Mitigation:} I will create each of the two nodes as both a publisher and subscriber. This way I am able to read in commands to the Arduino, as well as returning feedback from the motor. As none of the feedback will be stored on the Arduino, it will free up some memory. 
+	\item 
+	Evaluation tests aren't completely clear at this stage. \textbf{Mitigation:} I will have a meeting with my supervisor about the exact requirements to this project and then do research on user tests that I will be able to perform to check the project hits these. 
+	\item 
+	Hot swapping tools have been difficult to research as there is little online resources for this. \textbf{Mitigation:} Will take the dimensions of  the robot this will be added to and try to design myself from scratch, if time permits I will create in CAD and 3D print.
+\end{itemize}		
+
+\subsection{Plan}\label{plan}
+\begin{itemize}
+	\item Week 1-2: Development on retrieving feedback for second motor
+		- \textbf{Deliverable:} Able to receive feedback and use this to calculate whether an object has been fully gripped or not. 
+	\item Week 3: Change current nodes to each have PubSub capabilities
+		-\textbf{Deliverable:} Nodes are now able to return the feedback from the motor
+	\item Week 4-5: Creating a separate program that can open and close with second motor
+		-\textbf{Deliverable:} Code is able to close gripper around objects, stopping when it has a tight grip, calculated from the feedback being read. 
+	\item Week 6: Integrate the two programs so that the system will work no matter which gripper/motor is being used. 
+		-\textbf{Deliverable:} A fully functioning code base that works with both grippers. 
+	\item Week 7: Research on "Hot Swap" tooling kit
+		-\textbf{Deliverable:}  A researched and detailed plan on how a hot swap tooling kit could be created and integrated for the two grippers. 
+	\item Week 8: Research on how to effectively test and evaluate project
+		-\textbf{Deliverable:} A detailed plan for how to perform evaluation tests, with participant numbers and analysis plan. 
+	\item Week 9: Run evaluation experiments 
+		-\textbf{Deliverable:} Measures of usability and effectiveness from at least 5 users. 
+	\item Week 7-10: Write-up
+		-\textbf{Deliverable:} First draft to be submitted to supervisor two weeks before final deadline. 
+\end{itemize}    
+
+    \end{document}
