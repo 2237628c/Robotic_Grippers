@@ -1,4 +1,4 @@
-# Timelog
+## Timelog
 
 * PROJECT NAME
 * ADAM CHRISTIE
@@ -11,10 +11,10 @@
 * **YOU MUST KEEP THIS UP TO DATE AND UNDER VERSION CONTROL.**
 * This timelog should be filled out honestly, regularly (daily) and accurately. It is for *your* benefit.
 * Follow the structure provided, grouping time by weeks.  Quantise time to the half hour.
-
+†¥^øπåß∂ƒ©˙∆˚¬Ω≈ç≈Ω≈ç√∫~µ~~~µµ≤≥÷æ«…“‘ºª•¶§∞¢#€€¡≠–“‘«æ…≥÷…æ«÷≥≤…
 ## Week 1
 ### 30th Sept 2019
-* *4 hours* Prepared for meeting, collecting together summer work completed, questions I had about the project and timescales I should be trying to meet.
+* *4 hours* Prepared for meeting, collecting together summer work completed, questions I had about the project and timescales I should be trying to meet.ß
 
 ##1st Oct 2019
 * *1 hour* Meeting with supervisor, going over questions.
@@ -139,5 +139,13 @@
 * *2 hours* Finished planning and write up of Requirements section, tidying up of repository done as well
 * *1 hour* Planning out Design section of dissertation.
 
-###4th January 
-* *2 hours* Fixing repository, adding to gitignore and planning out bash script for users to run
+###6th January
+* *7 hours* Got motor and began trying to program in order to get it to work. Came across many issues that caused this to take a lot longer. Will need a second power supply of 12V to power the motor, as arduino Yun has no voltage regulator so can't take anything over 5V. Got this second power supply and got the motor to spin on a pre-defined loop. 
+
+###7th January 
+* *7 hours* Working on getting feedback from the motor, such as position, load, torque and temperature. This has been more intense than anticipated, however I have started earlier to account for issues like this. External Circuitry is necessary it would seem in order to get data back from the motor, creating a half-duplex circuit. Have had no success with getting feedback so far, all data I get back is "61568". 
+
+###8th January
+* *3 hours* Still trying to get feedback, have tried a few different circuits, as well as a software library that simulates the half duplex circuit, however none have seemed to work.  
+* *3 hours* Decided to leave the feedback for today. Worked on getting motor moving using ROS. Can now control motor from keyboard. Three keys are used in total, Spin left, Spin right, stop spinning. This way the user can simply tap a key and it will spin until told otherwise. This differs from the previous motors code, in which you held the key until the desired position was reached. 
+* *2 hours* Trying to integrate the two programs, almost finished, just need a few bug fixes. It's still a slightly manual system in that you must comment/uncomment two lines depending on which motor you're using, however if I get the feedback working this might help me make it more automatic. 
