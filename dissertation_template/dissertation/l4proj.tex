@@ -92,7 +92,7 @@ When looking at robotics, from the high end robots of BostonDynamics, to earth a
 
 Even at these high prices, researchers often find themselves at a disadvantage of only having a very limited selection of grippers to choose from and are often forced to compensate the disadvantages of some designs with either highly specialised code or external systems[3]. 3D printing has brought us the ability to either quickly customise these designs to fit with specific needs, or to design the grippers from scratch. This becomes very attractive due to the fact that a lot of designs and documentation are open source, meaning researches can pick and choose from a wide range of already existing designs.  
 
-This is the basis of my dissertation. Are we able to find open sourced 3D gripper designs, that we can take, modify if needed, print, program and run? This will show us how easy it can be for researchers to do the same, saving them a large amount of time and money. Another aspect I wish to explore is am I able to create generic code that works on very different gripper designs? This will show us again how much time researchers can save by having one generic program that runs several grippers, rather than having to create new code for each one. 
+This is the basis of my dissertation. Are we able to find open sourced 3D gripper designs, that we can take, modify if needed, print, program and run? This will show us how easy it can be for researchers to do the same, saving them a large amount of time and money. Another aspect I wish to explore is am I able to create generic code that works on very different gripper designs? This will show again how much time researchers can save by having one generic program that runs several grippers, rather than having to create new code for each one. 
 
 
 \section{Aims and Goals}
@@ -261,18 +261,46 @@ The following lays out the main specification and expectations for the final pro
 
 %==================================================================================================================================
 \chapter{Design 3/4}
-How is this problem to be approached, without reference to specific implementation details? 
-Design should cover the abstract design in such a way that someone else might be able to do what you did, but with a different language or library or tool.
 
-\section{Hardware}
+\section{Hardware Design}
+
+\subsection{Robotic Grippers}
+When deciding on robotic gripper designs, it was decided that two would be taken forward and used. This gave me the flexibility to find two different designs, that both had very different mechanisms of closing. Not only this, but it also allowed me to create two grippers that have advantages in different ways. 
+
+\textbf{Gripper1}\\
+The design of Gripper1 was taken from an open-source 3D printing site [16], and was chosen as it is commonly used in industry and that it gave us some very specific advantages. The shape of the gripper gives the robot the advantage of seeing what it's actually gripping, thanks to its flat design. This means that the cameras built on top of the robot, would now be capable of viewing the object being gripped no matter what angle it was coming from, whereas the robot had to come from the side.
+
+The mechanism of the gripper is very similar to a rack and pinion mechanism, however we have two racks working on on gear. Both racks are attached to the jaw and as they are on opposing sides of the gripper they turn in opposite directions to each other, creating a pincer movement. Whilst this design can't adapt to the object it's gripping, it does have some advantages. As the jaws need to swing less than 180$^{\circ}$ we only need a simple servo motor in order to operate it, showing researchers a cheap and simple alternative that they can use. 
+
+\textbf{Gripper2}\\
+Gripper2 offers us a far more complex design, with 3 under-actuated fingers, each with 2 degrees of freedom. This gripper was designed by the Nazarbayev University and posted for public use on Wevolver[17]. These fingers work in a hybrid of both the under-actuated pulley design[3] and the four bar crank design[10] discussed in Background. As the design is under-actuated, it allows the fingers to conform to whatever object it's gripping. This, along with having three fingers, gives researchers a large advantage when trying to grip irregular objects or spherical objects, that other, simpler grippers may struggle with. 
+
+The mechanism used to turn the fingers is known as a worm and wheel composition, which is using a centre screw (worm) in order to mesh with each of the gears (wheels) attached to the fingers. This design is very useful, as it is compact and allows for higher torque, but it will requires +360$^{\circ}$ of motion in order to operate fully, meaning that we need a continuous motor. 
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.75\linewidth]{images/gripper2_Finger.png}    
+    \caption{Gripper2, 2-DOF under-actuated finger design.}
+    \label{fig:image1} 
+\end{figure}
+
 \subsection{Motors}
-\subsection{Gripper Designs}
-\subsection{Microcontroller}
+As stated, two different types of motors are needed for each of the gripper designs chosen. These motors can differ a lot on how they're powered and controlled in code
 
-\section{Software design}
-\subsection{Controlling Servo Motor}
-\subsection{Controlling Continuous Servo Motor}
-\subsection{Feedback}
+\textbf{Servo Motors} are simpler motors that can rotate through 180$^{\circ}$. As these are so common and are widely used by hobbyists and researchers alike, they have been well integrated into systems such as Arduino and ROS. This means that controlling them is much easier and can be done by simply importing a few libraries. Servo.h, for example is an Arduino library which can be used in order to control the motor. This allows for simple commands to set the pin output and to write to the motor what position to travel to. It is important to note that when writing to servo motors we must provide them with an integer that correlates to the angle we want it to turn to. \\
+These motors have 3 wires, GND, VDD and Control Signal line, all of which must be connected to the Arduino in order to operate it. As servo motors only need around 5V to operate, we can simply connect it to the 5V output pin on the Arduino, then GND to the ground pin, and we cant set our data-out pin in the code, the data then comes through as a PWM signal from the Arduino. 
+
+\textbf{Continuous Motors} are more complex and more expensive than servo motors, as previously said. These motors can provide feedback on load, voltage, torque, they can offer a range of rotational speeds and many give different modes of spinning. However this feedback can be difficult to manage, as it very often requires external circuitry to switch the data line between In and Out. The range of different modes can offer a lot of flexibility, allowing you to tailor the gripper to your specific needs, but for this project I was torn between both Servo and Wheel mode. I decided that Wheel mode would have the most benefits, as it only requires the direction you wish to turn and the rotational speed. As the motor will have to spin through a much wider range I thought this would offer us more accuracy than having to guess at what angle to set the motor to turn to. \\
+Continuous motors also often have 3 wires, GND, VDD and their Data wire. However these motors require a higher voltage than their servo cousins and so need a separate power source of 12V. This leaves it as just the Data line being connected to the Arduino, although if feedback is needed it will instead be connected to a Half-Duplex circuit. 
+
+\subsection{Half Duplex Circuit}
+As we only have one data line, in order 
+
+
+\section{Software Design}
+\subsection{Publisher/Subscriber Architecture}
+I decided early on that a publisher/subscriber architecture would be the most useful for this project, making the Arduino the subscriber and running a publisher on the computer.
+\textbf{The publisher} will be created to read what keys on the keyboard are being used. Two keys will be selected as the controllers, one for opening and one for closing the grippers, for the purposes of easy following we will now use keys "O" for open and "P" for close. We then must assign a numerical value to each of these keys, where one is greater than 0 and one less than. By doing this we can then keep tabs on a total value, constantly adding a keys value while it is being pressed. We can then set up a simple check for whether we are using the 
 
 \section{Technologies}
 \subsection{Robotic Operating System}
@@ -283,6 +311,8 @@ Design should cover the abstract design in such a way that someone else might be
 \section{Ease of use}
 Talk about makefile. 
 
+How is this problem to be approached, without reference to specific implementation details? 
+Design should cover the abstract design in such a way that someone else might be able to do what you did, but with a different language or library or tool.
 
 %==================================================================================================================================
 \chapter{Implementation 10/12}
@@ -448,21 +478,25 @@ submitted separately.
 
 [7] https://www.asc-csa.gc.ca/eng/iss/dextre/about.asp
 
-[8] ISS Cargo delivery schedule https://www.space.com/32286-space-calendar.html
+[8] ISS Cargo delivery schedule, last visited 19/01/20, https://www.space.com/32286-space-calendar.html
 
-[9] Robotics, 2010, https://link-springer-com.ezproxy.lib.gla.ac.uk/content/pdf/10.1007%2F978-90-481-3776-3.pdf
+[9] Robotics, 2010,, last visited 19/01/20, https://link-springer-com.ezproxy.lib.gla.ac.uk/content/pdf/10.1007%2F978-90-481-3776-3.pdf
 
-[10] Mouhammad Abomoharam, Design of a single DOF gripper based on four-bar and slider-crank mechanism for educational purposes, https://www-sciencedirect-com.ezproxy.lib.gla.ac.uk/science/article/pii/S221282711400732X?via%3Dihub
+[10] Mouhammad Abomoharam, Design of a single DOF gripper based on four-bar and slider-crank mechanism for educational purposes,, last visited 19/01/20, https://www-sciencedirect-com.ezproxy.lib.gla.ac.uk/science/article/pii/S221282711400732X?via%3Dihub
 
-[11] Alaa Hassan, August 2017, Modeling and design optimization of a robot gripper mechanism, https://www-sciencedirect-com.ezproxy.lib.gla.ac.uk/science/article/pii/S073658451630254X?via%3Dihub
+[11] Alaa Hassan, August 2017, Modeling and design optimization of a robot gripper mechanism,, last visited 19/01/20, https://www-sciencedirect-com.ezproxy.lib.gla.ac.uk/science/article/pii/S073658451630254X?via%3Dihub
 
-[12] MIT, Fully Actuated vs. Underactuated Systems, https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-832-underactuated-robotics-spring-2009/readings/MIT6_832s09_read_ch01.pdf
+[12] MIT, Fully Actuated vs. Underactuated Systems, last visited 19/01/20, https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-832-underactuated-robotics-spring-2009/readings/MIT6_832s09_read_ch01.pdf
 
-[13] https://www.sciencebuddies.org/science-fair-projects/references/introduction-to-servo-motors
+[13] Introduction to servo motors, AUTHOR??, last visited 19/01/20, https://www.sciencebuddies.org/science-fair-projects/references/introduction-to-servo-motors
 
-[14] https://www.ros.org/about-ros/
+[14] ROS, , last visited 19/01/20, https://www.ros.org/about-ros/
 
-[15] https://www.ros.org/is-ros-for-me/
+[15] ROS, last visited 19/01/20, https://www.ros.org/is-ros-for-me/
+
+[16] Thingiverse- Gripper1 design, last visited 19/01/20, https://www.thingiverse.com/thing:1480408
+
+[17] Wevolver, Gripper2 design, last visited 19/01/20, https://www.wevolver.com/wevolver.staff/3d.printed.robotic.gripper/master/blob/Assembly.wevolver
 
 [c] https://www.ros.org/history/
 
