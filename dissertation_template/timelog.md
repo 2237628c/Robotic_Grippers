@@ -172,4 +172,5 @@
 
 ###28th January
 * *5 hours* Installing and using DynamixelWizard in order to test if feedback is working. Took a long time to get set up properly and to get the hardware set up. Updated the firmware, and was able to control and get feedback through this software. However none of the feedback available will help us to detect whether an object is gripped or not. I believed that "torque" would have been an indicator however this relates to when the motor is changing position. Will have to discuss with Supervisor. 
+
  
