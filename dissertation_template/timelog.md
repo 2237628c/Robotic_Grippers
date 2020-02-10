@@ -170,7 +170,27 @@
 * *2 hours* Setting up Dynamixel wizard on PC, should be ready for use, had to update the dynamixels firmware.
 
 
+##Week 3
 ###28th January
 * *5 hours* Installing and using DynamixelWizard in order to test if feedback is working. Took a long time to get set up properly and to get the hardware set up. Updated the firmware, and was able to control and get feedback through this software. However none of the feedback available will help us to detect whether an object is gripped or not. I believed that "torque" would have been an indicator however this relates to when the motor is changing position. Will have to discuss with Supervisor. 
 
+###31s January 
+* *3 hours* Finishing up the Design section , will have another read through before submitting to supervisor for revision. 
+
+
+###1st February
+* *2 hours* Revising Sections 1-4. Sent to supervisor to get feedback. 
+
+
+##Week 4 
+###5th February
+* *2 hours* After meeting with supervisor discussed the possibility of using shields on top of the arduino to interface with the dynamixel and get feedback. Decided on Robotis' own shield that they produce, Dynamixel Shield. This will be the best solution as Robotis provide Arduino libraries to be used with the shield to control the Dynamixel. 
  
+ ###7th February
+ * *5 hours* Dynamixel Shield arrived, testing out on the Dynamixel. Still unable to get feedback. With the Shield on the dynamixel doesn't respond to anything. 
+ 
+ ###8th February
+ * *5 hours* Trying to get the Shield to work. Had to email Dynamixel Tech support as it should work once setup. 
+ * *2 hours* Changed back to my original circuit that worked with ROS, but dynamixel no longer responds. Tried attaching it to the USB2Dynamixel to see if the DynamixelWizard could help me troubleshoot, but it couldn't even find the motor. 
+ 
+
