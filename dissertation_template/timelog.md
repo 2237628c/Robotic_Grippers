@@ -148,4 +148,29 @@
 ###8th January
 * *3 hours* Still trying to get feedback, have tried a few different circuits, as well as a software library that simulates the half duplex circuit, however none have seemed to work.  
 * *3 hours* Decided to leave the feedback for today. Worked on getting motor moving using ROS. Can now control motor from keyboard. Three keys are used in total, Spin left, Spin right, stop spinning. This way the user can simply tap a key and it will spin until told otherwise. This differs from the previous motors code, in which you held the key until the desired position was reached. 
-* *2 hours* Trying to integrate the two programs, almost finished, just need a few bug fixes. It's still a slightly manual system in that you must comment/uncomment two lines depending on which motor you're using, however if I get the feedback working this might help me make it more automatic. 
+* *2 hours* Trying to integrate the two programs, almost finished, just need a few bug fixes. It's still a slightly manual system in that you must comment/uncomment two lines depending on which motor you're using, however if I get the feedback working this might help me make it more automatic.
+
+
+##Week 1
+###14th January
+* *3 hours* Beginning the writeup of the design section, roughly jotting down my main points and getting the general layout, so that I can then expand on later
+* *3 hours* Working on some bug fixes to code, it seems as though the arduino may not have enough memory to hold both the servo and dynamixel controls, as well as the second subscriber setup to determine which motor is in use. 
+
+###17th January
+* *4 hours* Research and work going into how to reduce memory usage on the arduino, although it seems like it isn't possible at the minute. I have also researched a bit about roslaunch, which would allow for deploying both publisher and subscriber with one command.
+* *2 hours* Getting roslaunch to work. You can now upload either the servo or dynamixel arduino files, then run the python publisher and the arduino subscriber from one command. 
+
+
+##Week 2
+###20th January
+* *4 hours* Fleshing out design section, now half way through.
+
+###24th January 
+* *3 hours* Research into using DynamixelWizard to test feedback, had to wire up the USB2DYNAMIXEL device with my dynamixel motor and power supply. By testing this I can see if the motor returns feedback at all. 
+* *2 hours* Setting up Dynamixel wizard on PC, should be ready for use, had to update the dynamixels firmware.
+
+
+###28th January
+* *5 hours* Installing and using DynamixelWizard in order to test if feedback is working. Took a long time to get set up properly and to get the hardware set up. Updated the firmware, and was able to control and get feedback through this software. However none of the feedback available will help us to detect whether an object is gripped or not. I believed that "torque" would have been an indicator however this relates to when the motor is changing position. Will have to discuss with Supervisor. 
+
+ 
