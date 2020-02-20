@@ -39,8 +39,8 @@
 % Please note that you are under no obligation to sign 
 % this declaration, but doing so would help future students.
 %
-%\def\consentname {My Name} % your full name
-%\def\consentdate {20 March 2018} % the date you agree
+\def\consentname {Adam Christie} % your full name
+\def\consentdate {20 March 2020} % the date you agree
 %
 \educationalconsent
 
@@ -177,14 +177,12 @@ Another interesting design is the four-bar and slider-crank design[10]. This gri
 \begin{figure}[!ht]
   \centering
   \includegraphics[width=0.75\linewidth]{images/image2.png}   
-
   \caption{Showing under-actuated finger design for conforming to objects, [3]}
 \end{figure}
 
 \begin{figure}[!ht]
   \centering
   \includegraphics[width=0.75\linewidth]{images/fourfingered.png}   
-
   \caption{Showing four fingered bar and slider crank design, [10]}
 \end{figure}
 
@@ -202,6 +200,25 @@ A servo motor is a type of actuator that allows precise control of the motors po
 	\textbf{Linear servo}: This uses a gear and rack actuation, giving linear movement rather than rotational. These servos aren't used extensively and are generally more expensive than the other two. As they aren't used very often I don't think I will use one for this project. The aim is to try and create a gripper that will be widely used with parts that will be on hand to researchers. As these are hard to obtain and generally quite more expensive I don't think they would be useful. 
 \end{itemize}
 
+\subsection{DC Motors}
+DC Motors are continuous rotation motors that work by converting DC electrical energy into mechanical energy, usually this means relying on the forces produced by a set of magnets and an electrical coil with a current flowing through it. 
+\\There are two main types of DC motor: 
+\begin{itemize}
+	\item \textbf{Brush Motors}: Use contact brushes that connect with their commutator, commutator being the part that connects the rotating coils to the power supply. The brushes provide a current to the commutator that dictates what direction the shaft will rotate in. These motors are cheap and fairly easy to control, however require replacing due to the brushes wearing down.
+	\item \textbf{Brushless Motors}: Typically use one or more permanent magnets in the core, and have a series of electromagnetic coils attached around the casing to spin it. While these are cheap and fairly long lasting, they require specialised regulators to ensure control. 
+\end{itemize}
+
+
+\subsection{Stepper Motors}
+Stepper motors provide us with a simple and accurate open-looped system. They work by using two sets of teeth, as shown in image<<>>. There is the outside set, known as the stator teeth, have coils wrapped around them to provide electromagnetism, and the inside set, known as rotor teeth. By energising and de-energising sets of the stator teeth, we are able to spin the rotor teeth. These are simple motors that offer us high rotary position and provide us with a high torque at lower speeds and could prove very useful to this project. 
+
+However most of these motors will only operate with a Driver module, as they require the logic for when to set its' stator poles to Low or High. These motors also require a very high current, some around 400mA but some larger ones can range right up to several amps[19]. 
+
+\begin{figure}[!ht]
+  \centering
+  \includegraphics[width=0.4\linewidth]{images/stepMotor.png}   
+  \caption{Stepper Motor internal drawing. These motors generally come with an unequal number of rotor and stator teeth so that only a pair can line up at any one time,}
+\end{figure}
 
 \subsection{ROS}
 The Robotic Operating System is a middleware framework used to aid in writing the software for robotics[14]. ROS is able to utilise a very large collection of tools and libraries to simplify programming whilst still allowing for complex robotic operations. It was created by a wide range of experts and researches who contributed their time and resources to the core of ROS ideas and to the many packages that they now offer. As ROS was developed by many different researchers, all in different laboratories working on different robots, the main feature of ROS is that it is designed to be modular. This means that everyone from simple hobbyists, to large scale industrial systems, are able to use ROS to implement their systems for free. 
@@ -337,22 +354,60 @@ A large portion of this project involves 3D printing components from a CAD desig
 
 %==================================================================================================================================
 \chapter{Implementation 10/12}
-What did you do to implement this idea, and what technical achievements did you make?
-You can't talk about everything. Cover the high level first, then cover important, relevant or impressive details.
+This chapter describes the processes and steps taken to implement the functionality that was discussed in Chapter 4. This will go into greater detail than the previous chapters and aims to provide a process which others are able to take, use and even improve in their own work. 
+
+\section{Resources Used}
+\textbf{Ros Tutorials}: Were a very useful tool that provided me with the basic setup of my ROS system. Not only this, but the tutorials also provided a program called turtle_sim, which moved a turtle in the direction an arrow key was hit. Using this code I was then able to create a program that reacted to the gripper control keys. 
+
+\textbf{Tic GUI}: Is a GUI provided by Polulu[20] and offers a full GUI for the Tic T500 Driver IC. This allowed me to configure my stepper motor before integrating it with the Arduino and ROS system. 
+
+\textbf{Gripper Designs}: These were both open sourced and taken from locations already discussed and were used for both gripper designs, aside from some changes to Gripper2 that had to be made when changing motors. 
+Discuss using a piece of example code from ROS. 
+
 
 \section{System Overview}
+What have I created, what can this do?
+\subsection{Software Overview}
+Discuss the teleop\_twist\_keyboard, need to change names of it:/. Discuss how it is to be changed depending on which motor is used. Then can discuss how there are two arduino code bases depending on which motor is being used, not in much detail as will have to dive in deeper later. 
+Can talk about ROS launch. 
+\subsection{Hardware Overview} 
+General hardware setup, Pictures for both, talk about use of Arduino, Use of extra hardware such as the 3 motors used, USB2Dynamixel, a half duplex circuit, DynamixelShield, and the Tic T500. 
+
+
 
 \section{Gripper 1}
+Discuss design, insert pictures of fully assembled. Talk about applications of this type of gripper.
 \subsection{Assembly}
+Insert pics of individual pieces, discuss how the pieces are put together, the rubberised part for extra grip.
 \subsection{Hardware}
-\subsection{Interface}
+Chance to discuss the motor in a bit of detail, pretty basic for servo motor. 
+\subsection{Software}
+Discuss what information is published to the subscriber and what it does with it. Why I chose this, why it seemed like the best option. 
 
 \section{Gripper 2}
+Discuss design, insert pictures of fully assembled. Talk about applications of this type of gripper.
 \subsection{Assembly}
+Pics of individual pieces/close-ups. How they've been put together, discuss how a new piece had to be created to fit the new motor.
+
 \subsection{Hardware}
-\subsection{Interface}
+As discussed in previous chapters the hardware plan for the gripper2 was to use a Dynamixel Motor, with a Half-Duplex communication circuit. This motor was able to turn and function correctly to control the gripper, however due to an undetermined issue, I could not get feedback from the motor. This was a large issue as the reason an expensive motor was chosen was because it supposedly provided useful feedback. 
+
+In order to check that it was not the fault of the motor I used a USB2Dynamixel from robotis, the same company that design the Dynamixel motors. This allowed me to plug the Dynamixel directly into a computer and use the DynamixelWizard software to view all the registers inside the Dynamixel and see how they changed with movement. Once it was clear the motor was not at fault research was conducted to determine the best way to retrieve feedback from the motor. Arduino shields seemed to be the biggest standout option, as certain types come with half-duplex logic built in. I decided that Robotis' own DynamixelShield would be the best purchase, as a component that is essentially made to work with our motor and they also provided open-source Arduino libraries to communicate with the shield and motor. 
+
+Due to an issue while using these however a boot-loader error was hit and the motor was bricked. At this point time was running out and a solution had to be found quickly. During my initial background research I had reviewed other types of motors, such as DC motors and stepper motors so I decided that I would try and work with one of these. There was a stepper motor, 17HS13-0404D, and driver, Tic T500, at my disposal so I began work with it. 
+
+Before starting with the Arduino some setup on the motor is required. Using open-source tooling from the company that provides the drivers, we can change the drive type, the max speed, max torque and see a range of values that the motor stores. I decided the best solution would be to set the mode to Analogue Speed controlled, so that I could provide a range of PWM signals from the Arduino to spin the motor. Once this was done the final circuit was configured with the Arduino as shown in image<<>>.
 
 
+\subsection{Software}
+Can discuss TicGUI and getting the motor setup. Also will have to discuss second Arduino program for this. 
+
+\section{3D Printing}
+Discuss the 3D printing, ensuring you recalibrate each time, wiping down surface areas, setting to relevant temperatures, feeding in plastic.
+Creating new part for stepper motor. 
+
+\section{Maintainability}
+\subsection{Documentation}
 %==================================================================================================================================
 \chapter{Evaluation 10/11} 
 How good is your solution? How well did you solve the general problem, and what evidence do you have to support that?
@@ -520,6 +575,10 @@ submitted separately.
 [17] Wevolver, Gripper2 design, last visited 19/01/20, https://www.wevolver.com/wevolver.staff/3d.printed.robotic.gripper/master/blob/Assembly.wevolver
 
 [18] Half-Duplex Circuit, last visited 08/02/20, https://github.com/zcshiner/Dynamixel_Serial/blob/master/Dynamixel%20Institution%20V2.pdf
+
+[19] Stepper Motor Datasheet, last visited 18/02/20, https://www.oyostepper.com/images/upload/File/17HS13-0404D.pdf
+
+[20] Polulu, Tic GUI, last visited 18/02/20, https://www.pololu.com/docs/0J71/all 
 
 [c] https://www.ros.org/history/
 

@@ -191,6 +191,31 @@
  
  ###8th February
  * *5 hours* Trying to get the Shield to work. Had to email Dynamixel Tech support as it should work once setup. 
- * *2 hours* Changed back to my original circuit that worked with ROS, but dynamixel no longer responds. Tried attaching it to the USB2Dynamixel to see if the DynamixelWizard could help me troubleshoot, but it couldn't even find the motor. 
+ * *4 hours* Changed back to my original circuit that worked with ROS, but dynamixel no longer responds. Tried attaching it to the USB2Dynamixel to see if the DynamixelWizard could help me troubleshoot, but it couldn't even find the motor. 
  
-
+ ##Week 5
+ ###10th February
+ * *2 hours* Fixing issues pointed out in the feedback from my supervisor about sections 3 and 4.
+ * *3 hours* Still trying to get Dynamixel to work
+ * *4 hours* Researching other types of motors incase I have to switch to another. 
+ 
+ ###12th February
+ * *3 hours* Beginning to plan out implementation section of dissertation. 
+ 
+ ###14th February
+ * *1 hour* Meeting with supervisor where I stated that given the situation with the Dynamixel motor and our time constraints it might be best to change motors. I stated that I believe a stepper motor is a good choice as I was aware he had some on hand and the alternative would be a DC motor which would have to be ordered.
+ * *4 hours* research on controlling a stepper motor, how the driver works and software used for configuring them. Also on how they can be integrated with Arduino. 
+ 
+ ###15th February
+ * *5 hours* Working on configuring stepper motor with Tic GUI, testing out different modes of turning, working out which will be most useful and efficient for arduino integration. 
+ * *3 hours* Planning what 3D printed pieces will have to be changed to fit the new motor and how, taking necessary measurements so I can make appropriate changes to the Base, worm driver and possibly the holding struts. 
+ 
+ ###16th February 
+ * *3 hours* Using Fusion360 to create new CAD parts.
+ 
+ ###17th February 
+ * *2 hours* Issue when trying to slice the CAD STL files, had to go back to drawings and make changes, Then slicing again. 
+ * *4 hours* Working on getting stepper motor to move, decided on Analogue speed control, I can output a pwm signal from Arduino that I can change to appear as certain voltages, then using TicGUI I can set the motor to turn certain ways on these signals. 
+ * *2 hours* Integrating code to work with ROS, now works perfectly. 
+ 
+ 
