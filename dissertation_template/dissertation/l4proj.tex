@@ -350,46 +350,77 @@ Python was used to write the publisher script and was chosen between it and C++.
 Arduinos are used extensively in research as they are an open-source microcontroller that are easily programmed and reprogrammed at any given time and are relatively cheap. They offer researchers and hobbyists alike a way to easily interact with their real world environment by using Arduino's sensor and actuator capabilities. Through the initial meeting with my supervisor, we discussed that using an Arduino was important for this project as it's so common for researchers to use.
 
 \subsection{3D Printing and Computer-Aided Design}
-A large portion of this project involves 3D printing components from a CAD design. Almost all of the components that make up the grippers need to be 3D printed, except for a couple of nuts and bolts, which means having a 3D printer on hand is vital. On top of this, a decision must be made on what plastic you use for the project, as this will have a large effect on the component's finish, strength, and brittleness. ±±±±±±±MUST ADD PLASTIC I USED AND 3D PRINTER USED±±±±±±±
+A large portion of this project involves 3D printing components from a CAD design. Almost all of the components that make up the grippers need to be 3D printed, except for a couple of nuts and bolts, which means having a 3D printer on hand is vital. On top of this, a decision must be made on what plastic you use for the project, as this will have a large effect on the component's finish, strength, and brittleness. ±±±±±±± <<MUST ADD PLASTIC I USED AND 3D PRINTER USED>>±±±±±±±
 
 %==================================================================================================================================
 \chapter{Implementation 10/12}
-This chapter describes the processes and steps taken to implement the functionality that was discussed in Chapter 4. This will go into greater detail than the previous chapters and aims to provide a process which others are able to take, use and even improve in their own work. 
+This chapter describes the processes and steps taken to implement the functionality that was discussed in Chapter 4. This will go into greater detail than the previous chapters and aims to provide a guide which others are able to follow, use and even improve in their own work. 
 
 \section{Resources Used}
-\textbf{Ros Tutorials}: Were a very useful tool that provided me with the basic setup of my ROS system. Not only this, but the tutorials also provided a program called turtle_sim, which moved a turtle in the direction an arrow key was hit. Using this code I was then able to create a program that reacted to the gripper control keys. 
+Throughout the implementation of this project I used some resources to my benefit. These are all available completely open-source, as others may need to use them should they want to follow my progress. 
 
-\textbf{Tic GUI}: Is a GUI provided by Polulu[20] and offers a full GUI for the Tic T500 Driver IC. This allowed me to configure my stepper motor before integrating it with the Arduino and ROS system. 
+\textbf{Ros Tutorials}: Were a very useful tool that provided me with the basic setup of my ROS system. Not only this, but the tutorials also provided a program called turtle\_sim, which moved a turtle in the direction an arrow key was hit. Using this code I was then able to create a program that reacted to the gripper control keys. These tutorials also give step by step instructions on setting up catkin workspaces, which are a vital structure to the project and must be followed carefully by those also trying to implement it. 
 
-\textbf{Gripper Designs}: These were both open sourced and taken from locations already discussed and were used for both gripper designs, aside from some changes to Gripper2 that had to be made when changing motors. 
-Discuss using a piece of example code from ROS. 
+\textbf{Tic GUI}: Is a GUI provided by Polulu[20] and offers a full GUI for the Tic T500 Driver IC. The GUI gives us a way to drive the motor, alter the drive mode and even see various values stored in the motor such as position and speed. This allowed me to configure my stepper motor, by setting up the drive mode, before integrating it with the Arduino and ROS system. 
 
+\textbf{Gripper Designs}: Both of the gripper designs are open-source and were taken from sources previously discussed. However some changes had to be made to the Gripper2 designs, but how and why these changes were made is discussed in depth during this section. 
 
 \section{System Overview}
-What have I created, what can this do?
-\subsection{Software Overview}
-Discuss the teleop\_twist\_keyboard, need to change names of it:/. Discuss how it is to be changed depending on which motor is used. Then can discuss how there are two arduino code bases depending on which motor is being used, not in much detail as will have to dive in deeper later. 
+The final products, Gripper1 and Gripper2, produced by this project can be seen in figures <<>> and <<>> respectively. Here they can be clearly seen attached to the Blue Robot <<actual name?>>, with the Arduino secured in place on the side. A cable then runs from the Arduino to the computer which is running our publisher program, allowing us to control the grippers. 
+
+The two created grippers do not attach directly onto the robot, but instead are attached onto another 3D Printed piece, shown here <<>>, which is fitted onto the robot instead. This separate piece allows for some abstraction, as it can be attached to the end of many of the robotic arms in the School of computing science, giving way for our grippers to be used on many of these robots as well. This greatly increases the modularity of the project, as rather than having to change the gripper to fit onto the robots, we simply need to change this simple piece. 
+
+<<Photos>>
+
+
+\section{Software}
+As previouslt discussed the underlying communication of this project is performed using ROS nodes. These nodes essentially represent executable code or can at least be though of  stored on some electronic medium, whether that is one computer, several computers, or in our case a computer and an Arduino. ROS nodes communicate by sending messages between each other, and each message is organised into specific categories, referred to as Topics. There is a single master node that all other nodes must register to in order to communicate with each other. 
+
+While ROS nodes are generally though of as being independent they require a master node in order to locate one another so that they can send messages. These use the standard Transmission Control Protocol/Internet Protocol (TCP/IP) called TCPROS in ROS. 
+
+In order to get the most effective use out of the ROS system, I decided that a publisher subscriber pattern would be the best to use, where our publisher would be the keys being read from the computer, and the subscriber listening for what instructions it's being sent. 
+ 
 Can talk about ROS launch. 
-\subsection{Hardware Overview} 
+Talk about use of ROS framework, go into detail about how this works. 
+
+\subsection{Publisher}
+Our publisher was taken from a piece of existing code that's provided by the ROS tutorials called \textit{turtle\_sim}. This gave me a basic structure of a program that could work out which key was being currently pressed. I
+
+When the code is ran, with \textit{rosrun teleop\_twist\_keyboard teleop\_twist\_keyboard.py}, it requests the user to input what motor is being used. This is necessary as we must publish different values depending on which motor is connected to the Arduino. As the Servo motor requires an angle to be passed to it and the Stepper motor simply needs to know which direction to turn, it seemed most effective to determine what motor is used in the publisher, rather than having this logic in the subscriber on the Arduino as we are already contending with Arduino memory restrictions. The request given to the user specifically states what information it can send for if the user is using a positionally driven motor or a velocity, voltage or frequency driven motor. By doing this we are able to keep the publisher agnostic of the actual motor being used. 
+
+Once a drive mode has been selected, then we begin to listen for which keys are being pressed. By creating a dictionary I was able to use the "Key being pressed" as my key and then could assign a different value to this depending on what function I wanted it to perform. For example, I decided that I would use O, P and I for opening, closing and halting the gripper respectively. These keys were chosen as it seemed intuitive to have them side by side and they were also far enough away from standard key control, such as the arrow keys or W-A-S-D, that they wouldn't interfere with other robotic controls users may be implementing. If there was an issue with which keys are used it is an easy change to make in the code. The values associated with O, P and I were +10, -10 and 0 respectively. 
+
+Then the rest of the functionality is dependent on what drive mode was chosen at the start. If we are using positional driving then we create a \textit{total} variable that is the result of adding the keys value continuously while it's being held, this value is then continuously so the subscriber receives a gradual increase in angle to turn through. Instead if we use the voltage driven motor, we simply need to publish our key value when it is pressed, to let the subscriber calculate what direction to turn through, or if it gets through 0, to stop movement all together. 
+
+\subsection{subscriber}
+Originally I had wanted to have one subscriber that would have to be uploaded once and would work for many gripper types, however an issue of storage on the Arduino became prevalent. Two subscribers on the Arduino would actually be necessary, one to read to values of the key presses, and one to read the drive mode that was selected by the user. This was too much processing for 
+
+Talk about both generally here, how the ROS subscriber works and how information can be transferred, then go into actual individual details under eaech gripper. 
+
+\textbf{Gripper1}\\
+
+\textbf{Gripper2}\\
+
+
+
+\section{Hardware}
 General hardware setup, Pictures for both, talk about use of Arduino, Use of extra hardware such as the 3 motors used, USB2Dynamixel, a half duplex circuit, DynamixelShield, and the Tic T500. 
 
 
+\subsection{Gripper Body}
+Can discuss gear ratios, assembly, what more can be done with it, anything extra I did with drawings. How the assembly was, what benefits the design has. Some pics of assembly perhaps? Talk about rubber part for gripper 1.
+Can also talk about having to change the bodies in order to allow them to be attachable to the robots. 
+\textbf{Gripper1}\\
 
-\section{Gripper 1}
-Discuss design, insert pictures of fully assembled. Talk about applications of this type of gripper.
-\subsection{Assembly}
-Insert pics of individual pieces, discuss how the pieces are put together, the rubberised part for extra grip.
-\subsection{Hardware}
-Chance to discuss the motor in a bit of detail, pretty basic for servo motor. 
-\subsection{Software}
-Discuss what information is published to the subscriber and what it does with it. Why I chose this, why it seemed like the best option. 
+\textbf{Gripper2}\\
 
-\section{Gripper 2}
-Discuss design, insert pictures of fully assembled. Talk about applications of this type of gripper.
-\subsection{Assembly}
-Pics of individual pieces/close-ups. How they've been put together, discuss how a new piece had to be created to fit the new motor.
 
-\subsection{Hardware}
+\subsection{Motors}
+Can talk about issue with Dynamixel maybe? 
+
+\textbf{Gripper1}\\
+
+\textbf{Gripper2} \\
 As discussed in previous chapters the hardware plan for the gripper2 was to use a Dynamixel Motor, with a Half-Duplex communication circuit. This motor was able to turn and function correctly to control the gripper, however due to an undetermined issue, I could not get feedback from the motor. This was a large issue as the reason an expensive motor was chosen was because it supposedly provided useful feedback. 
 
 In order to check that it was not the fault of the motor I used a USB2Dynamixel from robotis, the same company that design the Dynamixel motors. This allowed me to plug the Dynamixel directly into a computer and use the DynamixelWizard software to view all the registers inside the Dynamixel and see how they changed with movement. Once it was clear the motor was not at fault research was conducted to determine the best way to retrieve feedback from the motor. Arduino shields seemed to be the biggest standout option, as certain types come with half-duplex logic built in. I decided that Robotis' own DynamixelShield would be the best purchase, as a component that is essentially made to work with our motor and they also provided open-source Arduino libraries to communicate with the shield and motor. 
@@ -399,15 +430,18 @@ Due to an issue while using these however a boot-loader error was hit and the mo
 Before starting with the Arduino some setup on the motor is required. Using open-source tooling from the company that provides the drivers, we can change the drive type, the max speed, max torque and see a range of values that the motor stores. I decided the best solution would be to set the mode to Analogue Speed controlled, so that I could provide a range of PWM signals from the Arduino to spin the motor. Once this was done the final circuit was configured with the Arduino as shown in image<<>>.
 
 
-\subsection{Software}
-Can discuss TicGUI and getting the motor setup. Also will have to discuss second Arduino program for this. 
-
 \section{3D Printing}
-Discuss the 3D printing, ensuring you recalibrate each time, wiping down surface areas, setting to relevant temperatures, feeding in plastic.
-Creating new part for stepper motor. 
+3D Printer used, plastic used, process for using 3D printer, talk about calibration, setting brims etc.
+SHOULD CREATE A DIAGRAM AND LABEL TO ALL PARTS WITH THEIR CORRESPONDING STL FILE NAMES.
 
 \section{Maintainability}
 \subsection{Documentation}
+
+
+
+
+
+
 %==================================================================================================================================
 \chapter{Evaluation 10/11} 
 How good is your solution? How well did you solve the general problem, and what evidence do you have to support that?
