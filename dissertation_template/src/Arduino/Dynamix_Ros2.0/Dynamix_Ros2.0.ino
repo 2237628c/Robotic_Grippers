@@ -37,10 +37,8 @@ ros::NodeHandle  nh;
 
 void servo_cb( const std_msgs::Int16& cmd_msg){
   if(cmd_msg.data > 0){
-    Serial.println("WHEELING RIGHT");
     Dynamixel.wheel(SERVO_ID,RIGHT,0x3FF);
   }else if(cmd_msg.data < 0){
-    Serial.println("WHEELING RIGHT");
     Dynamixel.wheel(SERVO_ID,LEFT,0x3FF);
   }else{
     Dynamixel.wheel(SERVO_ID,RIGHT,0x000);

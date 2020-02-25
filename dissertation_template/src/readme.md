@@ -3,37 +3,6 @@
 Put a brief description of your code here. This should at least describe the file structure.
 
 ## Build instructions
-It is assumed that ROS has been installed and configured on your computer already. 
-If this isn't the case, please carefully follow the instructions here -->
-http://wiki.ros.org/ROS/Tutorials/InstallingandConfiguringROSEnvironment
-
-Once this is completed, please copy the files found at dissertation_template/src/catkin_ws
-Paste into your catkin_ws folder and run commands 
-  cd ~/catkin_ws
-  catkin_make
-  . ~/catkin_ws/devel/setup.bash
-
-
-Assuming you have already installed Arduino and have an Arduino sketchbook.
-Run following commands to install ros libraries for arduino 
-(Replace DISTRO with whatever ROS version you're using (e.g. melodic)--
-
-  sudo apt-get install ros-<DISTRO>-rosserial-arduino
-  sudo apt-get install ros-<DISTRO>-rosserial
-  
-  cd <ws>/src
-  git clone https://github.com/ros-drivers/rosserial.git
-  cd <ws>
-  catkin_make
-  catkin_make install
-
-  cd <sketchbook>/libraries
-  rm -rf ros_lib
-  rosrun rosserial_arduino make_libraries.py .
-
-To check it has worked correctly, restart Arduino IDE, go to File/Examples amd you should see ros_lib.
-Now copy the files found (excluding "libraries") in dissertation_template/src/Arduino into your sketchbook folder. 
-
 
 **You must** include the instructions necessary to build and deploy this project successfully. If appropriate, also include 
 instructions to run automated tests. 
@@ -57,12 +26,8 @@ or another example:
 ### Build steps
 Terminal Commands (In seperate terminal tabs)
 roscore
-roslaunch teleop_twist_keyboard gripper.launch
-
-These are the commands to run the two nodes separately, however roslaunch 
-command should run both together.
----rosrun teleop_twist_keyboard teleop_twist_keyboard.py 
----rosrun rosserial_python serial_node.py /dev/ttyACM0
+rosrun teleop_twist_keyboard teleop_twist_keyboard.py 
+rosrun rosserial_python serial_node.py /dev/ttyACM0
 
 Arduino Setup
 For Servo Motor
