@@ -1,0 +1,8 @@
+prefix=/home/prusa/catkin_ws/devel
+
+Name: gripper_ui
+Description: Description of gripper_ui
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

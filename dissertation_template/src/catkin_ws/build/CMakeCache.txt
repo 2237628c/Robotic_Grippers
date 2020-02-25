@@ -371,6 +371,12 @@ gripper_scripts_BINARY_DIR:STATIC=/home/prusa/catkin_ws/build/gripper_scripts
 gripper_scripts_SOURCE_DIR:STATIC=/home/prusa/catkin_ws/src/gripper_scripts
 
 //Value Computed by CMake
+gripper_ui_BINARY_DIR:STATIC=/home/prusa/catkin_ws/build/gripper_ui
+
+//Value Computed by CMake
+gripper_ui_SOURCE_DIR:STATIC=/home/prusa/catkin_ws/src/gripper_ui
+
+//Value Computed by CMake
 gtest_BINARY_DIR:STATIC=/home/prusa/catkin_ws/build/gtest/gtest
 
 //Dependencies for the target
@@ -542,6 +548,9 @@ teleop_twist_keyboard_BINARY_DIR:STATIC=/home/prusa/catkin_ws/build/teleop_twist
 //Value Computed by CMake
 teleop_twist_keyboard_SOURCE_DIR:STATIC=/home/prusa/catkin_ws/src/teleop_twist_keyboard
 
+//The directory containing a CMake configuration file for tkinter.
+tkinter_DIR:PATH=tkinter_DIR-NOTFOUND
+
 //The directory containing a CMake configuration file for topic_tools.
 topic_tools_DIR:PATH=/opt/ros/kinetic/share/topic_tools/cmake
 
@@ -678,7 +687,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=19
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=20
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP
