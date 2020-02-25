@@ -4,5 +4,5 @@ Name: gripper_scripts
 Description: Description of gripper_scripts
 Version: 0.0.0
 Cflags: 
-Libs: -L/home/prusa/catkin_ws/devel/lib 
+Libs: -L${prefix}/lib 
 Requires: 
